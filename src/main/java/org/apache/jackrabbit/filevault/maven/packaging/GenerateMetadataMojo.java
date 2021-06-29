@@ -855,8 +855,11 @@ public class GenerateMetadataMojo extends AbstractPackageMojo {
                 final String targetPathName = targetPath + destFileName;
                 final String targetNodePathName = targetPathName.substring(JCR_ROOT.length() - 1);
 
-                getLog().info(String.format("Embedding %s (from %s) -> %s", artifact.getId(), source.getAbsolutePath(), targetPathName));
-                fileMap.put(targetPathName, source);
+                File updatedFile = EmbeddedFileUtil.updateManifest(source, emb.getManifestProperties());
+
+                getLog().info(String.format("Embedding %s (from %s) -> %s", artifact.getId(), updatedFile.getAbsolutePath(), targetPathName));
+
+                fileMap.put(targetPathName, updatedFile);
 
                 if (emb.isFilter()) {
                     addWorkspaceFilter(targetNodePathName);

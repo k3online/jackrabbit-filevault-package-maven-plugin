@@ -41,6 +41,11 @@ public class Embedded extends SimpleEmbedded{
     private String target;
 
     /**
+     * manifest Properties.
+     */
+    private String manifestProperties;
+
+    /**
      * Name to use for the artifact in the destination
      */
     private String destFileName;
@@ -76,7 +81,17 @@ public class Embedded extends SimpleEmbedded{
         if (destFileName != null) {
             builder.append(",destFileName=").append(destFileName);
         }
+        if (manifestProperties != null) {
+            builder.append(",manifestProperties=").append(manifestProperties);
+        }
         return builder.toString();
     }
 
+    public String getManifestProperties() {
+        return manifestProperties;
+    }
+
+    public void setManifestProperties(String manifestProperties) {
+        this.manifestProperties = manifestProperties;
+    }
 }
