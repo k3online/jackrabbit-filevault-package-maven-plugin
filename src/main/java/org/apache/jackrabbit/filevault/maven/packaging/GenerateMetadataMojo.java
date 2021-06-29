@@ -950,6 +950,7 @@ public class GenerateMetadataMojo extends AbstractMetadataPackageMojo {
             getLog().info("Embedding --- " + emb + " ---");
             for (final Artifact artifact : artifacts) {
                 final File source = artifact.getFile();
+
                 String destFileName = emb.getDestFileName();
 
                 // todo: add support for patterns
@@ -981,11 +982,14 @@ public class GenerateMetadataMojo extends AbstractMetadataPackageMojo {
                         }
                     }
                 }
+
                 final String targetPathName = targetPath + destFileName;
                 final String targetNodePathName = targetPathName.substring(Constants.ROOT_DIR.length());
+                File updatedFile = EmbeddedFileUtil.updateManifest(source, emb.getManifestProperties());
 
-                getLog().info(String.format("Embedding %s (from %s) -> %s", artifact.getId(), source.getAbsolutePath(), targetPathName));
-                fileMap.put(targetPathName, source);
+                getLog().info(String.format("Embedding %s (from %s) -> %s", artifact.getId(), updatedFile.getAbsolutePath(), targetPathName));
+
+                fileMap.put(targetPathName, updatedFile);
 
                 if (emb.isFilter()) {
                     addEmbeddedFileToFilter(targetNodePathName, emb.isAllVersionsFilter());
